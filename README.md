@@ -3,3 +3,10 @@
 2.	Change to wherever you saved app.py (the directory) and type “cd~/CSC381Project” in terminal.
 3.	Create virtual environment with (“python3 -m venv venv” in terminal)
 4.	Open virtual environment (“source venv/bin/activate” in terminal)
+
+
+Uploading to Github
+Download Github Extensions
+Go to source control on the left side of screen
+Type a message about what you changed and added
+Click "Commit and Push"
