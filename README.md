@@ -6,7 +6,7 @@
 
 
 Uploading to Github
-Download Github Extensions
-Go to source control on the left side of screen
-Type a message about what you changed and added
-Click "Commit and Push"
+1. Download Github Extensions
+2. Go to source control on the left side of screen
+3. Type a message about what you changed and added
+4. Click "Commit and Push"
