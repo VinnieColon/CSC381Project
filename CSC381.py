@@ -1,3 +1,6 @@
-print("hello world")
+import csv
 
-print("you smell like cheese")
+with open("stats.csv", 'r') as file:
+  csvreader = csv.reader(file)
+  for row in csvreader:
+    print(row)
