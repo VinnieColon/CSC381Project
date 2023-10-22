@@ -25,14 +25,17 @@ xwobaZScore = pandas.DataFrame({
 
 # This function will standardize data to range given by arguments low and high
 # Min in OG data will equal low and Max will equal high
+# Handles the pinning of outliers as well
 def scaleData(data: np.array, low, high):
     res = []
     min, max = np.min(data), np.max(data)
     diff = max - min
+    threeSDs = np.std(data) * 3
+    meanData = np.mean(data)
     for d in data:
-        if d == min:
+        if d == min or d - meanData < -1 * threeSDs:
             res.append(low)
-        elif d == max:
+        elif d == max or d - meanData > threeSDs:
             res.append(high)
         else:
             curr = (d-min)/diff
@@ -47,4 +50,4 @@ ogData = statsDF['xwoba'].to_list()
 
 # Uncomment the following loop to see the examples (WARNING: prints ~300 lines to terminal)
 #for i in range(len(stdZeroOne)):
-#    print("OG: {}      New: {}\n".format(ogData[i], stdZeroOne[i]))
+#   print("OG: {}      New: {}\n".format(ogData[i], stdZeroOne[i]))
