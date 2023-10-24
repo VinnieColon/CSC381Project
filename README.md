@@ -30,7 +30,7 @@
 ## How to Run App With Flask
 - Running a flask app isn't as simple as just clicking the green button in the top right
 - To run the app you will have to activate your virtual environment and enter the following commands into the terminal (separately)
-    export FLASK_APP=data_routes
-    flask run
+    - export FLASK_APP=data_routes
+    - flask run
 - The terminal will print a few lines, one of them saying "* Running on http://SomeAddress" if you click this link it will bring you to the app in your browser
 - To turn the app off, go to the terminal and press ctrl + c and the flask server will stop running
