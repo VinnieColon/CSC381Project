@@ -20,3 +20,10 @@
 
 
 # Installing Necessary Libraries
+- Activate your virtual environment using method described above
+- Enter the following commands into the terminal to get necessary libraries (We will add to this as we go)
+    pip install pandas
+    pip install numpy
+    pip install flask
+    pip install Flask-WTF
+    pip install scipy
