@@ -17,7 +17,7 @@ app.config["SECRET_KEY"]='Smokin shit in a glass pipe'
 # For now this will just redirect to the route for our datatable page
 @app.route("/")
 def main_redirect():
-    return redirect(url_for('dataTable'))
+    return redirect(url_for('main_datatable'))
 
 
 # This is the route for our data table
