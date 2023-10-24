@@ -9,7 +9,9 @@ import numpy as np
 
 
 # Reading in stats.csv as dataframe
-statsDF = pandas.read_csv('stats.csv')
+# The second line just removes any columns that are unnamed
+statsDF = pandas.read_csv('/static/data/stats.csv')
+statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
 
 
 # Standardizing the xwoba column by using ZScore and outputting first few rows of result
