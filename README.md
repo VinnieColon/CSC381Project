@@ -27,7 +27,7 @@
     pip install scipy
 
 
-# How to Run App With Flask
+## How to Run App With Flask
 - Running a flask app isn't as simple as just clicking the green button in the top right
 - To run the app you will have to activate your virtual environment and enter the following commands into the terminal (separately)
     export FLASK_APP=data_routes
