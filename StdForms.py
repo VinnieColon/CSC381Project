@@ -5,19 +5,6 @@
 # Imports
 from flask_wtf import FlaskForm
 from wtforms import SelectMultipleField, SelectField, SubmitField, widgets
-import pandas as pd
-
-
-# Read in stats.csv, we will need it to populate our forms
-statsDF = pd.read_csv('static/data/stats.csv')
-statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
-
-
-# Getting the column names and formatting them for form
-""" cols = statsDF.columns
-colChoices = []
-for col in cols:
-    colChoices.append(tuple([col, col])) """
 
 
 # Creating list of tuples that will be passed to the form
