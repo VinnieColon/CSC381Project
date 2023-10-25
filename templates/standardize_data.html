@@ -12,7 +12,7 @@
         <span class="error">{{ form.chosenCols.errors | join("|") }}</span>
     </div>
     <div>
-        {{form.chosenCols(size=size)}}
+        {{form.chosenCols}}
     </div>
 
     <div>
@@ -25,7 +25,7 @@
 
     <!-- SUBMIT -->
     <div>
-        {{form.submit()}}
+        {{form.submit}}
     </div>
 </form>
 {% endblock content %}
