@@ -6,6 +6,9 @@
 from flask import Flask, render_template, url_for, request, redirect
 from FormatDataframe import fmtDataframe
 import pandas as pd
+from StdForms import StandardizeColsForm, colDict, ranges
+from scipy.stats import zscore
+from standard import scaleData
 
 
 # These are env vars that need to be set for app to work
@@ -21,11 +24,59 @@ def main_redirect():
 
 
 # This is the route for our data table
-@app.route("/dataTable")
+@app.route("/main_datatable")
 def main_datatable():
     df = pd.read_csv('static/data/stats.csv')
     result = fmtDataframe(df)
     return render_template('dataTable.html', title="Main Datatable", header="Main Datatable", result=result)
+
+
+# This is the route for the form to standardize the data
+@app.route("/standardize_data", methods=['GET', 'POST'])
+def standardize_data():
+
+    # Define our form
+    form = StandardizeColsForm()
+
+    # Check if valid submission made to form
+    if form.validate_on_submit():
+
+        # Get attribute of the flask request object corresponding to our form
+        # This contains the entries made and submitted by the user
+        result = request.form
+
+        # Read in stats.csv
+        statsDF = pd.read_csv('static/data/stats.csv')
+        statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
+
+        # Standardizing chosen columns to chosen range
+        if result["chosenRange"] == 'z':
+            for col in result["chosenCols"]:
+                curr = zscore(statsDF[colDict[col]])
+                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
+                statsDF[colDict[col]] = curr
+        else:
+            print(result['chosenRange'])
+            # Getting low and high bound of range as integers
+            low, high = 0, 0
+            if ranges[result['chosenRange']][0] == '-':
+                low, high = -1, 1
+            else:
+                splitRange = ranges[result['chosenRange']].split('-')
+                low = int(splitRange[0])
+                high = int(splitRange[1])
+            
+            for col in result["chosenCols"]:
+                curr = scaleData(statsDF[colDict[col]].to_numpy(), low, high)
+                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
+                statsDF[colDict[col]] = curr
+        
+        # Now we can format and render this augmented table
+        res = fmtDataframe(statsDF)
+        return render_template('dataTable.html', title="Standardized Table", header="Standardized Table", result=res)
+
+    # If not yet submitted, we keep rendering standardize_data template
+    return render_template('standardize_data.html', title="Standardize Data", header="Standardize Data", form=form)
 
 
 # This must be in this file for flask to work correctly

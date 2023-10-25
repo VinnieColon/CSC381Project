@@ -10,27 +10,33 @@ from wtforms.validators import InputRequired
 
 
 # Read in stats.csv, we will need it to populate our forms
-statsDF = pd.read_csv('/static/data/stats.csv')
+statsDF = pd.read_csv('static/data/stats.csv')
 statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
 
 
 # Getting the column names and formatting them for form
 cols = statsDF.columns
+colDict = {}
 i = 1
 colChoices = []
 for col in cols:
     colChoices.append(tuple([str(i), col]))
+    colDict[str(i)] = col
     i += 1
 
 
 # Defining ranges for standardization (will be fixed for now)
-ranges = [
-    ('1', '0-1'), 
-    ('2', '0-10'),
-    ('3', '-1-1'),
-    ('4', '1-10'),
-    ('5', 'z')
-]
+ranges = {
+    '1': '0-1', 
+    '2': '0-10',
+    '3': '-1-1',
+    '4': '1-10',
+    '5': 'z'
+}
+
+rangeChoices = []
+for k, v in ranges.items():
+    rangeChoices.append(tuple([k, v]))
 
 
 # Defining the form for standardizing selected columns to a specified range
@@ -40,7 +46,7 @@ class StandardizeColsForm(FlaskForm):
     chosenCols = SelectMultipleField('Choose Columns', validators=[InputRequired("Must choose at least one")], choices=colChoices)
 
     # This is the field for selecting the range
-    chosenRange = SelectField('Choose Range', validators=[InputRequired("Must choose one")], choices=ranges)
+    chosenRange = SelectField('Choose Range', validators=[InputRequired("Must choose one")], choices=rangeChoices)
 
     # This is the submit field
     submit = SubmitField('Submit')
