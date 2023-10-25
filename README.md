@@ -49,4 +49,9 @@
     - This command can be used whenever you want to get the most updated version of the project
 
 
-## 
+## Git/GitHub Command Line: add, commit, push
+- When you do tasks we generally will break them down into subtasks, each time you write code that solves a specific subproblem you will want to add and commit the changes to the repository
+- To do this, do the following...
+    1. Enter "git add (files)" where (files) are the files that you modified when writing your code each one separated by a space (Ex. git add ex1.py ex2.py)
+    2. Enter "git commit -m (Message)" where (Message) is a small sentence about what the commit represents, make sure the message is in parentheses (Ex. git commit -m "This is an example")
+- Once you have completed all of the subtasks and the task is complete, we will want to push these changes to the main repo with "git push origin main"
