@@ -4,16 +4,8 @@
 {% block header %} {{header}}  {% endblock header %}
 
 {% block content %} 
-<form action="" method="post">
-    {{ form.csrf_token }}
-
-    <div>
-        {{form.inFile.label}}
-        <span class="error">{{ form.inFile.errors | join("|") }}</span>
-    </div>
-    <div>
-        {{form.inFile}}
-    </div>
-
-</form>
+<form method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+  </form>
 {% endblock content %}
