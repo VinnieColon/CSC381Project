@@ -8,4 +8,4 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 # Class defining the form
 class FileInForm(FlaskForm):
-    inFile = FileField(validators=[FileRequired(), FileAllowed('csv', 'csv files only')])
+    inFile = FileField('Choose CSV File',validators=[FileRequired(), FileAllowed('csv', 'csv files only')])
