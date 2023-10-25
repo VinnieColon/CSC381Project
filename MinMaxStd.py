@@ -4,8 +4,8 @@ import numpy as np
 
 
 # Defining a function that performs min-max standardization
-def minMaxScale(df: pd.DataFrame, low = 0, high = 1):
-    data = df['xwoba'].to_numpy().reshape((len(df.index), 1))
+def minMaxScale(df: pd.DataFrame, col: str, low = 0, high = 1):
+    data = df[col].to_numpy().reshape((len(df.index), 1))
     scaler = MinMaxScaler(feature_range=(low, high))
     scaler.fit(data)
     res = list(np.array(scaler.transform(data)).flatten())
