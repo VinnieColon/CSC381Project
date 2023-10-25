@@ -40,21 +40,13 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('main_datatable', name=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('upload_csv.html', title='Upload CSV', header='Upload CSV')
 
 
 # This is the route for our data table
-@app.route("/main_datatable")
-def main_datatable():
-    df = pd.read_csv('static/data/stats.csv')
+@app.route("/main_datatable/<name>")
+def main_datatable(name):
+    df = pd.read_csv('uploads/{}'.format(name))
     result = fmtDataframe(df)
     return render_template('dataTable.html', title="Main Datatable", header="Main Datatable", result=result)
 
