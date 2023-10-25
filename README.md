@@ -34,3 +34,19 @@
     - flask run
 - The terminal will print a few lines, one of them saying "* Running on http://SomeAddress" if you click this link it will bring you to the app in your browser
 - To turn the app off, go to the terminal and press ctrl + c and the flask server will stop running
+
+
+## How to Setup Git/GitHub on Command Line Terminal
+- Often times it is faster/easier to use command line instead of github extensions of desktop GUI
+- First, go to project folder in command line and type "git init" to initialize local repository
+    - Everytime you start working on project type "git init" into command line
+- Now we will connect your local git repo to the github repo we all share
+    1. Go to the repository on GitHub and click the green button that says "code"
+    2. In the drop-down menu that appears there will be a link, copy it
+    3. Go to command line and enter the command "git remote add origin (link)" where (link) is the link you copied from previous step
+- You are now connected to the remote github repo which we named "origin", if you ever want to see the list of remote repos you are connected to enter "git remote -v"
+- To get the data from this remote repo into your local one enter "git pull origin main"
+    - This command can be used whenever you want to get the most updated version of the project
+
+
+## 
