@@ -29,5 +29,5 @@ statsDF = pd.read_csv('static/data/stats.csv')
 fmtData = fmtDataframe(statsDF)
 
 # Printing keys and values of dictionary representing the first row
-for k, v in fmtData[0].items():
-    print("Key: {} \nValue: {}\n".format(k, v))
+#for k, v in fmtData[0].items():
+    #print("Key: {} \nValue: {}\n".format(k, v))
