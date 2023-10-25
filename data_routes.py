@@ -38,25 +38,25 @@ def standardize_data():
     # Define our form
     form = StandardizeColsForm()
 
+    # Read in stats.csv
+    statsDF = pd.read_csv('static/data/stats.csv')
+    statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
+
     # Check if valid submission made to form
     if form.validate_on_submit():
 
         # Get attribute of the flask request object corresponding to our form
         # This contains the entries made and submitted by the user
         result = request.form
-
-        # Read in stats.csv
-        statsDF = pd.read_csv('static/data/stats.csv')
-        statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
+        print(result['chosenCols'])
 
         # Standardizing chosen columns to chosen range
-        if result["chosenRange"] == 'z':
+        if ranges[result["chosenRange"]] == 'z':
             for col in result["chosenCols"]:
                 curr = zscore(statsDF[colDict[col]])
                 statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
                 statsDF[colDict[col]] = curr
         else:
-            print(result['chosenRange'])
             # Getting low and high bound of range as integers
             low, high = 0, 0
             if ranges[result['chosenRange']][0] == '-':
@@ -76,7 +76,8 @@ def standardize_data():
         return render_template('dataTable.html', title="Standardized Table", header="Standardized Table", result=res)
 
     # If not yet submitted, we keep rendering standardize_data template
-    return render_template('standardize_data.html', title="Standardize Data", header="Standardize Data", form=form)
+    size = len(statsDF.columns)
+    return render_template('standardize_data.html', title="Standardize Data", header="Standardize Data", form=form, size=size)
 
 
 # This must be in this file for flask to work correctly
