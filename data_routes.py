@@ -3,24 +3,52 @@
 
 
 # Imports
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, redirect, request, url_for, flash
 from FormatDataframe import fmtDataframe
 import pandas as pd
 from StdForms import StandardizeColsForm
 from scipy.stats import zscore
 from standard import scaleData
+from ChooseCSVForm import FileInForm
+from werkzeug.utils import secure_filename
+from allowed_file import allowed_file
+import os
 
 
 # These are env vars that need to be set for app to work
 app = Flask(__name__)
 app.config["SECRET_KEY"]='Smokin shit in a glass pipe'
+app.config['UPLOAD_FOLDER']='uploads'
 
 
 # This is called the root route because it corresponds to "/"
 # For now this will just redirect to the route for our datatable page
-@app.route("/")
-def main_redirect():
-    return redirect(url_for('main_datatable'))
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('main_datatable', name=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
 
 
 # This is the route for our data table
