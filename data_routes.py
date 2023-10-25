@@ -47,26 +47,26 @@ def standardize_data():
 
         # Get attribute of the flask request object corresponding to our form
         # This contains the entries made and submitted by the user
-        result = request.form
-        print(result['chosenCols'])
+        colsChosen = form.chosenCols.data
+        rangeChosen = form.chosenRange.data
 
         # Standardizing chosen columns to chosen range
-        if ranges[result["chosenRange"]] == 'z':
-            for col in result["chosenCols"]:
+        if ranges[rangeChosen] == 'z':
+            for col in colsChosen:
                 curr = zscore(statsDF[colDict[col]])
                 statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
                 statsDF[colDict[col]] = curr
         else:
             # Getting low and high bound of range as integers
             low, high = 0, 0
-            if ranges[result['chosenRange']][0] == '-':
+            if ranges[rangeChosen][0] == '-':
                 low, high = -1, 1
             else:
-                splitRange = ranges[result['chosenRange']].split('-')
+                splitRange = ranges[rangeChosen].split('-')
                 low = int(splitRange[0])
                 high = int(splitRange[1])
             
-            for col in result["chosenCols"]:
+            for col in colsChosen:
                 curr = scaleData(statsDF[colDict[col]].to_numpy(), low, high)
                 statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
                 statsDF[colDict[col]] = curr
