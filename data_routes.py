@@ -17,11 +17,11 @@ import os
 # These are env vars that need to be set for app to work
 app = Flask(__name__)
 app.config["SECRET_KEY"]='Smokin shit in a glass pipe'
-app.config['UPLOAD_FOLDER']='uploads'
+app.config['UPLOAD_FOLDER']='uploads' # This defines the upload folder as storage folder for user uploaded files
 
 
 # This is called the root route because it corresponds to "/"
-# For now this will just redirect to the route for our datatable page
+# This route will display a form allowing user to input a csv file
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -54,12 +54,16 @@ def main_datatable(filename):
 @app.route("/standardize_data/<filename>", methods=['GET', 'POST'])
 def standardize_data(filename):
 
-    # Define our form
-    form = StandardizeColsForm()
-
     # Read in current csv from uploads
     statsDF = pd.read_csv('uploads/{}'.format(filename))
     statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
+
+    # Define our form and populate column choices from the input data
+    form = StandardizeColsForm()
+    cols = []
+    for col in statsDF.columns:
+        cols.append(tuple([col, col]))
+    form.chosenCols.choices = cols
 
     # Check if valid submission made to form
     if form.validate_on_submit():

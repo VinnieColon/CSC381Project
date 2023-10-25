@@ -14,10 +14,10 @@ statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False
 
 
 # Getting the column names and formatting them for form
-cols = statsDF.columns
+""" cols = statsDF.columns
 colChoices = []
 for col in cols:
-    colChoices.append(tuple([col, col]))
+    colChoices.append(tuple([col, col])) """
 
 
 # Creating list of tuples that will be passed to the form
@@ -34,8 +34,8 @@ class MultiCheckboxField(SelectMultipleField):
 class StandardizeColsForm(FlaskForm):
 
     # This is the field for selecting one or more columns
-    chosenCols = MultiCheckboxField('Choose Columns', choices=colChoices)
-
+    chosenCols = MultiCheckboxField('Choose Columns')
+    
     # This is the field for selecting the range
     chosenRange = SelectField('Choose Range', choices=rangeChoices)
 
