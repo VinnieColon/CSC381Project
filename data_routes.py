@@ -6,7 +6,7 @@
 from flask import Flask, render_template, url_for, request, redirect
 from FormatDataframe import fmtDataframe
 import pandas as pd
-from StdForms import StandardizeColsForm, colDict, ranges
+from StdForms import StandardizeColsForm
 from scipy.stats import zscore
 from standard import scaleData
 
@@ -51,25 +51,25 @@ def standardize_data():
         rangeChosen = form.chosenRange.data
 
         # Standardizing chosen columns to chosen range
-        if ranges[rangeChosen] == 'z':
+        if rangeChosen == 'z':
             for col in colsChosen:
-                curr = zscore(statsDF[colDict[col]])
-                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
-                statsDF[colDict[col]] = curr
+                curr = zscore(statsDF[col])
+                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(col, case = False)],axis = 1, inplace = True)
+                statsDF[col] = curr
         else:
             # Getting low and high bound of range as integers
             low, high = 0, 0
-            if ranges[rangeChosen][0] == '-':
+            if rangeChosen[0] == '-':
                 low, high = -1, 1
             else:
-                splitRange = ranges[rangeChosen].split('-')
+                splitRange = rangeChosen.split('-')
                 low = int(splitRange[0])
                 high = int(splitRange[1])
             
             for col in colsChosen:
-                curr = scaleData(statsDF[colDict[col]].to_numpy(), low, high)
-                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(colDict[col],case = False)],axis = 1, inplace = True)
-                statsDF[colDict[col]] = curr
+                curr = scaleData(statsDF[col].to_numpy(), low, high)
+                statsDF.drop(statsDF.columns[statsDF.columns.str.contains(col, case = False)],axis = 1, inplace = True)
+                statsDF[col] = curr
         
         # Now we can format and render this augmented table
         res = fmtDataframe(statsDF)
