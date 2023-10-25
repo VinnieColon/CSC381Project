@@ -9,7 +9,6 @@ import pandas as pd
 from StdForms import StandardizeColsForm
 from scipy.stats import zscore
 from standard import scaleData
-from ChooseCSVForm import FileInForm
 from werkzeug.utils import secure_filename
 from allowed_file import allowed_file
 import os
@@ -39,27 +38,27 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('main_datatable', name=filename))
-    return render_template('upload_csv.html', title='Upload CSV', header='Upload CSV')
+            return redirect(url_for('main_datatable', filename=filename))
+    return render_template('upload_csv.html')
 
 
 # This is the route for our data table
-@app.route("/main_datatable/<name>")
-def main_datatable(name):
-    df = pd.read_csv('uploads/{}'.format(name))
+@app.route("/main_datatable/<filename>")
+def main_datatable(filename):
+    df = pd.read_csv('uploads/{}'.format(filename))
     result = fmtDataframe(df)
-    return render_template('dataTable.html', title="Main Datatable", header="Main Datatable", result=result)
+    return render_template('dataTable.html', title="Main Datatable", header="Main Datatable", name=filename, result=result)
 
 
 # This is the route for the form to standardize the data
-@app.route("/standardize_data", methods=['GET', 'POST'])
-def standardize_data():
+@app.route("/standardize_data/<filename>", methods=['GET', 'POST'])
+def standardize_data(filename):
 
     # Define our form
     form = StandardizeColsForm()
 
-    # Read in stats.csv
-    statsDF = pd.read_csv('static/data/stats.csv')
+    # Read in current csv from uploads
+    statsDF = pd.read_csv('uploads/{}'.format(filename))
     statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
 
     # Check if valid submission made to form
@@ -93,11 +92,10 @@ def standardize_data():
         
         # Now we can format and render this augmented table
         res = fmtDataframe(statsDF)
-        return render_template('dataTable.html', title="Standardized Table", header="Standardized Table", result=res)
+        return render_template('dataTable.html', title="Standardized Table", header="Standardized Table", name=filename, result=res)
 
     # If not yet submitted, we keep rendering standardize_data template
-    size = len(statsDF.columns)
-    return render_template('standardize_data.html', title="Standardize Data", header="Standardize Data", form=form, size=size)
+    return render_template('standardize_data.html', title="Standardize Data", header="Standardize Data", form=form, name=filename)
 
 
 # This must be in this file for flask to work correctly
