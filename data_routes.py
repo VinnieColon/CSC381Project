@@ -8,7 +8,7 @@ from FormatDataframe import fmtDataframe
 import pandas as pd
 from StdForms import StandardizeColsForm
 from scipy.stats import zscore
-from standard import scaleData
+from MinMaxStd import minMaxScale
 from werkzeug.utils import secure_filename
 from allowed_file import allowed_file
 import os
@@ -91,7 +91,7 @@ def standardize_data(filename):
                 high = int(splitRange[1])
             
             for col in colsChosen:
-                curr = scaleData(statsDF[col].to_numpy(), low, high)
+                curr = minMaxScale(statsDF, col, low, high)
                 statsDF.drop(statsDF.columns[statsDF.columns.str.contains(col, case = False)],axis = 1, inplace = True)
                 statsDF[col] = curr
         
