@@ -59,9 +59,10 @@ def standardize_data(filename):
     statsDF.drop(statsDF.columns[statsDF.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
 
     # Define our form and populate column choices from the input data
+    # Note that we will only allow columns with float values to be standardized
     form = StandardizeColsForm()
     cols = []
-    for col in statsDF.columns:
+    for col in statsDF.select_dtypes('floating').columns:
         cols.append(tuple([col, col]))
     form.chosenCols.choices = cols
 
