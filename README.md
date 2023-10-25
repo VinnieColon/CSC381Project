@@ -55,3 +55,20 @@
     1. Enter "git add (files)" where (files) are the files that you modified when writing your code each one separated by a space (Ex. git add ex1.py ex2.py)
     2. Enter "git commit -m (Message)" where (Message) is a small sentence about what the commit represents, make sure the message is in parentheses (Ex. git commit -m "This is an example")
 - Once you have completed all of the subtasks and the task is complete, we will want to push these changes to the main repo with "git push origin main"
+
+
+## Git/Github Command Line: Branching and Merging
+- Instead of pushing straight to main branch as we did above, we will often be pushing to a branch dedicated to a specific task being worked on
+- A branch starts as a copy of the main branch (or some other but our project isn't that complex)
+- To create a new branch in the remote repo, go to GitHub and click where it says "main" in top left, a menu will drop down with an option to create a new branch
+- Now in your local repo in your command line type "git checkout -b (branch)" where (branch) is the name of the branch you used in previous step
+    - This command will also switch you from the main branch to this new branch
+    - This means any commits will now be on new branch instead of main
+- Push and Pull commands are the same except instead of "main" use the name of new branch
+- Once the task that branch is dedicated has been completed then it is ready to be merged 
+    - Go to GitHub and go to your branch, click create pull request and optionally leave a little note about the branch
+    - GitHub will check if there is any conflicts if there were to be a merge, make sure it says there are no conflicts
+    - Go to your command line and enter "git checkout main"
+    - Then enter "git merge (branch)"
+    - Finally enter "git push -u origin main" to push merge to remote repo
+- Delete the merged branch with "git branch --delete (branch)"
