@@ -16,13 +16,14 @@ if "csv_data" in st.session_state:
         st.subheader("Choose Columns and Range")
         columns = st.multiselect("Choose One or More Columns", df.select_dtypes('floating').columns)
         ranges = st.selectbox("Choose a Range", ["0-1", "-1-1", "0-10", "1-10", "z"])
+        pin_outliers = st.checkbox("Pin Outliers")
         submitted = st.form_submit_button()
 
         # Defining behavior of app upon submission of form
         if submitted and columns is not None:
 
             # Getting a new data frame from OG with chosen columns standardized to desired range
-            curr = stdDF(df, columns, ranges)
+            curr = stdDF(df, columns, ranges, pin_outliers)
 
             # Displaying the resulting data table
             st.subheader("Standardized Data:")
@@ -31,3 +32,6 @@ if "csv_data" in st.session_state:
 else:
     st.subheader("No CSV file has been entered")
                 
+
+
+

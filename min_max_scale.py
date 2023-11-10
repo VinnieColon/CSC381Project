@@ -5,17 +5,27 @@ from scipy.stats import zscore
 
 
 # Defining a function that performs min-max standardization
-def minMaxScale(df: pd.DataFrame, col: str, low = 0, high = 1):
+def minMaxScale(df: pd.DataFrame, col: str, low = 0, high = 1, pin_outliers = False):
     data = df[col].to_numpy().reshape((len(df.index), 1))
     scaler = MinMaxScaler(feature_range=(low, high))
     scaler.fit(data)
     res = list(np.array(scaler.transform(data)).flatten())
+    resMean = np.mean(res)
+    res3Std = np.std(res) * 3
+    if pin_outliers:
+        for i in range(len(res)):
+            diff = res[i] - resMean
+            if diff >= res3Std:
+                res[i] = high
+            elif diff <= -1 * res3Std:
+                res[i] = low
+
     return res
 
 
 # Defining a function that takes a data frame, a list of columns, and the range to which
 # those columns will be standardized, returns df with standardized columns
-def stdDF(df: pd.DataFrame, columns, ranges: str):
+def stdDF(df: pd.DataFrame, columns, ranges: str, pin_outliers):
     if ranges == 'z':
         for col in columns:
             curr = zscore(df[col])
@@ -32,7 +42,7 @@ def stdDF(df: pd.DataFrame, columns, ranges: str):
         
         # Performing min-max scaling on chosen columns
         for col in columns:
-            curr = minMaxScale(df, col, low, high)
+            curr = minMaxScale(df, col, low, high, pin_outliers)
             df[col] = curr
 
     return df
