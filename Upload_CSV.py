@@ -11,3 +11,5 @@ if up_file is not None:
     df.drop(df.columns[df.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
     st.session_state["csv_data"] = df
     view_data()
+elif "csv_data" in st.session_state:
+    view_data()
