@@ -8,9 +8,9 @@ def view_data(givenChoiceDF = None):
 
     if "csv_data" in st.session_state:
         if givenChoiceDF is not None:
-            df = st.session_state["csv_data"].copy()[str(st.session_state["csv_indexes"].copy()[givenChoiceDF])]
+            df = st.session_state["csv_data_list"].copy()[str(st.session_state["csv_indexes"].copy()[givenChoiceDF])]
         else:
-            df = st.session_state["csv_data"].copy()["0"]
+            df = st.session_state["csv_data"].copy()
         st.dataframe(df)
 
     else:

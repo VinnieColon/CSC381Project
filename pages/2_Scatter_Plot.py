@@ -10,7 +10,7 @@ if "csv_data" in st.session_state:
     # Defining fields of form
     st.subheader("Choose dataframe")
     selectDF = st.selectbox("Select a dataframe", st.session_state["csv_indexes"].copy().keys())
-    df = st.session_state["csv_data"].copy()[str(st.session_state["csv_indexes"][selectDF])]
+    df = st.session_state["csv_data_list"].copy()[str(st.session_state["csv_indexes"][selectDF])]
     st.subheader("Pick Columns to be Plotted")
     xaxis = st.selectbox("Choose x-axis", df.select_dtypes('floating').columns)
     yaxis = st.selectbox("Choose y-axis", df.select_dtypes('floating').columns)

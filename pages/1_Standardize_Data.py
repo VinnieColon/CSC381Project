@@ -9,7 +9,7 @@ st.title("Standardize Columns of Data")
 if "csv_data" in st.session_state:
 
     # Getting OG CSV file data as a dataframe
-    df = st.session_state["csv_data"]["0"].copy()
+    df = st.session_state["csv_data"].copy()
 
     # Defining fields of form
     st.subheader("Choose Columns and Range")

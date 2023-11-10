@@ -10,7 +10,7 @@ def saveDataframe(name, df):
     elif name in st.session_state["csv_indexes"].keys():
         st.write("That name is already taken!")
     else:
-        numDfs = len(st.session_state["csv_data"].keys()) + 1
+        numDfs = len(st.session_state["csv_data_list"].keys()) + 1
         st.session_state["csv_indexes"][name] = numDfs
-        st.session_state["csv_data"][str(numDfs)] = df
+        st.session_state["csv_data_list"][str(numDfs)] = df
         st.write("Data frame saved to app's memory!")
