@@ -11,6 +11,8 @@ if up_file is not None:
     df.drop(df.columns[df.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
     st.session_state["csv_data"] = {"0": df}
     st.session_state["csv_indexes"] = {"OG data": 0}
-    view_data()
+    selectDF = st.selectbox("Select Dataframe to View", st.session_state["csv_indexes"].copy().keys())
+    view_data(selectDF)
 elif "csv_data" in st.session_state:
-    view_data()
+    selectDF = st.selectbox("Select Dataframe to View", st.session_state["csv_indexes"].copy().keys())
+    view_data(selectDF)
