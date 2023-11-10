@@ -10,9 +10,9 @@ def minMaxScale(df: pd.DataFrame, col: str, low = 0, high = 1, pin_outliers = Fa
     scaler = MinMaxScaler(feature_range=(low, high))
     scaler.fit(data)
     res = list(np.array(scaler.transform(data)).flatten())
-    resMean = np.mean(res)
-    res3Std = np.std(res) * 3
     if pin_outliers:
+        resMean = np.mean(res)
+        res3Std = np.std(res) * 3
         for i in range(len(res)):
             diff = res[i] - resMean
             if diff >= res3Std:
