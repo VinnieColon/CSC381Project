@@ -14,3 +14,9 @@ def identRels(df):
     if submitRel:
         st.session_state["relationships"].append([cause, effect])
         st.write("Relationship added to memory!")
+
+    # Button that allows user to clear memory of all saved relationships
+    clearRels = st.button("Clear Mem")
+    if clearRels:
+        st.session_state["relationships"] = []
+        st.write("Memory Cleared!")
