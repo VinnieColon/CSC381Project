@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from view.ViewData import view_data
 from Helpers.ident_rels import identRels
+from Helpers.choose_prim_key import selectPrimKey
 
 st.title("Upload a CSV")
 
@@ -28,6 +29,8 @@ if up_file is not None:
     # Displays form for identifying relationships and adding to memory
     identRels(df)
 
+    # Displays form for entering primary key
+    selectPrimKey(df)
 
 # This runs when csv has already been uploaded and user has left and returned to this page
 elif "csv_data" in st.session_state:
@@ -41,3 +44,6 @@ elif "csv_data" in st.session_state:
 
     # Displays form for identifying relationships and adding to memory
     identRels(df)
+
+    # Displays form for entering primary key
+    selectPrimKey(df)
