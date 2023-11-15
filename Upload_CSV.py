@@ -3,6 +3,7 @@ import pandas as pd
 from view.ViewData import view_data
 from Helpers.ident_rels import identRels
 from Helpers.choose_prim_key import selectPrimKey
+from Helpers.high_good import high_good
 
 st.title("Upload a CSV")
 
@@ -21,6 +22,7 @@ if up_file is not None:
     st.session_state["csv_data_list"] = {"0": df}
     st.session_state["csv_indexes"] = {"OG data": 0}
     st.session_state["relationships"] = []
+    st.session_state["good_or_bad"] = {}
 
     # Selectbox to select df from app's memory and view it
     selectDF = st.selectbox("Select Dataframe to View", st.session_state["csv_indexes"].copy().keys())
@@ -31,6 +33,9 @@ if up_file is not None:
 
     # Form for entering a primary key
     selectPrimKey(df)
+
+    #for High good vs. Bad
+    high_good(df)
 
 
 # This runs when csv has already been uploaded and user has left and returned to this page
@@ -48,3 +53,6 @@ elif "csv_data" in st.session_state:
 
     # Form for entering a primary key
     selectPrimKey(df)
+
+    #for High good vs. Bad
+    high_good(df)
