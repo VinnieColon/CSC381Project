@@ -31,10 +31,10 @@ if "csv_data" in st.session_state:
             if i == st.session_state["row_keys"][chooseKey]:
                 continue
             if chooseAlg == "Euclidean":
-                sum = euclidean_distance
+                sum = euclidean_distance(df.iloc[st.session_state["row_keys"][chooseKey]], df.iloc[i])
             else: 
-                sum = manhattan_distance
-        distances.append((sum))
+                sum = manhattan_distance(df.iloc[st.session_state["row_keys"][chooseKey]], df.iloc[i])
+        distances.append(sum)
     st.session_state["distance_{}".format(chooseKey)] = distances
             
 else:
