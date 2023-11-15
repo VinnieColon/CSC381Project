@@ -1,7 +1,9 @@
+#Imports
 import streamlit as st
 import pandas as pd
 import numpy as np
-from Helpers.distance_help import distance_help
+from Helpers.distance_help import euclidean_distance, manhattan_distance
+from Helpers.choose_prim_key import selectRow
 
 #Page name
 st.title("Choose Similar Combination Algorithm")
@@ -20,7 +22,20 @@ if "csv_data" in st.session_state:
     #Selecting the Key
     chooseKey =st.selectbox("Primary Key", st.session_state["row_keys"].keys())
 
-
-    
+    submitBtn = st.button("Submit Button")
+    if submitBtn:
+        chosenRow = selectRow(df, chooseKey)
+        distances = []
+        for i in range(len(df.index)):
+            # Skip over the chosen row
+            if i == st.session_state["row_keys"][chooseKey]:
+                continue
+            if chooseAlg == "Euclidean":
+                sum = euclidean_distance
+            else: 
+                sum = manhattan_distance
+        distances.append((sum))
+    st.session_state["distance_{}".format(chooseKey)] = distances
+            
 else:
     st.subheader("No CSV data entered yet")
