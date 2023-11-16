@@ -4,8 +4,6 @@ import pandas as pd
 
 def responseAddIO(inp,outp):
 
-    st.subheader("Choose Inputs and Outputs")
-
     if inp is not None and outp is not None:
         st.session_state["Inputs"]=inp
         st.session_state["Outputs"]=outp
@@ -23,6 +21,7 @@ def view_data(givenChoiceDF = None):
             df = st.session_state["csv_data"].copy()
         st.dataframe(df)
 
+        st.subheader("Identify Inputs and Outputs")
         inputs= st.multiselect("Inputs",df.columns)
         outputs= st.multiselect("Outputs",df.columns)
         AddIO = st.button("Add Input/Outputs",on_click=responseAddIO)

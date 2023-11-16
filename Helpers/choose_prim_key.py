@@ -17,7 +17,7 @@ def selectPrimKey(df):
             currdf = df.iloc[i]
             key = ""
             for col in primKey:
-                key += "{}_".format(currdf[col])
+                key += "{} ".format(currdf[col])
             rowSelect[key] = i
         st.session_state["row_keys"] = rowSelect
         st.write("Primary Key Saved!")

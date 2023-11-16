@@ -52,6 +52,13 @@ elif "csv_data" in st.session_state:
         # Write distances to session state
         st.session_state["distance_{}".format(chooseKey)] = distances
         st.write("Added to memory!")
+
+        # Create and display dataframe containing
+        display_df = st.session_state["csv_data"].copy()
+        display_df = display_df.drop(st.session_state["row_keys"][chooseKey])
+        display_df = display_df[st.session_state["primary_key"]]
+        display_df["Distance"] = distances
+        st.dataframe(display_df)
             
 else:
     st.subheader("No CSV data entered yet")
