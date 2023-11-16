@@ -5,6 +5,10 @@ import streamlit as st
 
 # Function diplaying selectboxes and button
 def identRels(df):
+
+    # Subheader for the view
+    st.subheader("Identify Relationships")
+
     # Selectboxes for cause and effect relationship between 2 columns
     cause = st.selectbox("Choose Cause", df.columns)
     effect = st.selectbox("Choose Effect", df.columns)

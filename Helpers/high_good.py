@@ -2,6 +2,9 @@
 import streamlit as st
 
 def high_good(df):
+
+    st.subheader("High Good or Bad?")
+
     chooseCol = st.selectbox ("Choose Column", df.columns)
     high_good = st.selectbox("High is good?", ["Yes", "No"])
 
