@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 
 def responseAddIO(inp,outp):
+
+    st.subheader("Choose Inputs and Outputs")
+
     if inp is not None and outp is not None:
         st.session_state["Inputs"]=inp
         st.session_state["Outputs"]=outp
