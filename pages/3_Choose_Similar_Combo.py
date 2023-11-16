@@ -18,8 +18,7 @@ elif "csv_data" in st.session_state:
     #needs to be renamed
     #select boxes should be 'Manhattan' or 'Crow Flies/Euclidean'
     chooseAlg = st.selectbox("Choose Combo Algorithm", ["Euclidean", "Manhattan"])
-    chooseAx1 = st.selectbox("Choose 1st column", df.select_dtypes('floating').columns)
-    chooseAx2 = st.selectbox("Choose 2nd column", df.select_dtypes('floating').columns)
+    chooseAx1 = st.multiselect("Choose Columns to Compare", df.select_dtypes('floating').columns)
     
     #Selecting the Key
     chooseKey =st.selectbox("Primary Key", st.session_state["row_keys"].keys())
@@ -29,13 +28,21 @@ elif "csv_data" in st.session_state:
         chosenRow = selectRow(df, chooseKey)
         distances = []
         chosenEntry = df.iloc[st.session_state["row_keys"][chooseKey]]
-        chosenDatapoint = [chosenEntry[chooseAx1], chosenEntry[chooseAx2]]
+        chosenDatapoint = []
+        for cAx in chooseAx1:
+            chosenDatapoint.append(chosenEntry[cAx])
         for i in range(len(df.index)):
+
             # Skip over the chosen row
             if i == st.session_state["row_keys"][chooseKey]:
                 continue
             
-            currDatapoint = [df.iloc[i][chooseAx1], df.iloc[i][chooseAx2]]
+            # Get Datapoint representing i-th row
+            currDatapoint = []
+            for cAx in chooseAx1:
+                currDatapoint.append(df.iloc[i][cAx])
+
+            # Compute distance between chosen row and i-th row
             if chooseAlg == "Euclidean":
                 sum = euclidean_distance(chosenDatapoint, currDatapoint)
             else: 

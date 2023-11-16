@@ -11,5 +11,5 @@ def high_good(df):
         if high_good == "Yes":
             st.session_state["good_or_bad"][chooseCol] = True
         else:
-            st.session_state["good_or_bad"][chooseCol] = True
+            st.session_state["good_or_bad"][chooseCol] = False
         st.write("Added to memory")
